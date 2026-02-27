@@ -8,3 +8,9 @@ variable "is_public" {
   type    = bool
   default = false
 }
+
+variable "deletion_protection" {
+  description = "Whether or not to protect the service from accidental deletion."
+  type        = bool
+  default     = true
+}

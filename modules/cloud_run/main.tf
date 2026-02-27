@@ -1,6 +1,7 @@
 resource "google_cloud_run_v2_service" "platform_service" {
   name     = "${var.env}-platform-service"
   location = var.region
+  deletion_protection = var.deletion_protection
 
   template {
     containers {

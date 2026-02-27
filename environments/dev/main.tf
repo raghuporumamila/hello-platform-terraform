@@ -19,6 +19,7 @@ module "platform_app" {
   commit_sha            = var.commit_sha
   service_account_email = google_service_account.run_sa.email
   is_public             = true
+  deletion_protection   = false # Set to false to allow destruction
 }
 
 output "service_url" {
