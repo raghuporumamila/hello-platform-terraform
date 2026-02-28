@@ -1,9 +1,16 @@
+# 1. Create a specific identity for the Prod service (Least Privilege)
+resource "google_service_account" "run_sa" {
+  account_id   = "platform-runner-${var.env}"
+  display_name = "Cloud Run Executor for ${var.env}"
+}
+
 resource "google_cloud_run_v2_service" "platform_service" {
   name     = "${var.env}-platform-service"
   location = var.region
   deletion_protection = var.deletion_protection
 
   template {
+    service_account = google_service_account.run_sa.email
     containers {
       image = var.container_image
       ports {
@@ -14,8 +21,6 @@ resource "google_cloud_run_v2_service" "platform_service" {
         value = var.commit_sha
       }
     }
-    # Least Privilege: Application identity is scoped
-    service_account = var.service_account_email
   }
 }
 
@@ -26,3 +31,4 @@ resource "google_cloud_run_v2_service_iam_member" "public_access" {
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
+
