@@ -5,7 +5,7 @@ resource "google_service_account" "run_sa" {
 }
 
 resource "google_cloud_run_v2_service" "platform_service" {
-  name                = "${var.env}-platform-service"
+  name                = var.service_name
   location            = var.region
   deletion_protection = var.deletion_protection
 
